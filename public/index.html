@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UniTalk</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121889914-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-121889914-2');
+    </script>
+
     <link href="/style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -27,6 +36,14 @@
                     <a href="#!" class="modal-close btn-floating btn-large waves-effect waves-light red"><i class="material-icons">clear</i></a>
                 </div>
                 <div class="modal-content">
+                    <h2>UniTalk</h2>
+                    <div class="credits" style="text-align: center;">Made with <i class="fa fa-code"> </i> and <i class="fa fa-heart">
+                        </i> by TK Vishal
+                        <a href="https://github.com/sanvishal" target="_blank"><i class="fa fa-github"></i></a>
+                        <a href="https://twitter.com/Iamteeekay" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a onclick="copyDivToClipboard()" id="wa" class="fixture good tooltipped" data-position="top"
+                            data-tooltip="+91 8248795811"><i class="fa fa-whatsapp"><span id="num"></span></i></a>
+                    </div>
                     <h6>
                         <div id="num-users"></div>
                     </h6>
@@ -52,13 +69,6 @@
         </div>
         <button class="btn waves-effect waves-light" id="send">Send <i class="material-icons right">send</i></button>
     </div>
-    <div class="credits" style="text-align: center;">Made with <i class="fa fa-code"> </i> and <i class="fa fa-heart">
-        </i> by TK Vishal
-        <a href="https://github.com/sanvishal" target="_blank"><i class="fa fa-github"></i></a>
-        <a href="https://twitter.com/Iamteeekay" target="_blank"><i class="fa fa-twitter"></i></a>
-        <a onclick="copyDivToClipboard()" id="wa" class="fixture good tooltipped" data-position="top" data-tooltip="+91 8248795811"><i
-                class="fa fa-whatsapp"><span id="num"></span></i></a>
-    </div>
     <script src="/chat.js"></script>
     <script>
         $(document).ready(function () {
@@ -70,9 +80,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.tooltipped');
-            var inst = M.Tooltip.init(elems, {
-                exitDelay: 5000
-            });
+            var inst = M.Tooltip.init(elems);
         });
         function copyDivToClipboard() {
             var range = document.getSelection().getRangeAt(0);

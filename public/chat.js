@@ -172,6 +172,14 @@ var selectRandom = randopick => {
 		var pickedUser = randopick[Math.floor(Math.random() * randopick.length)];
 		var myinfo = { username: handle.value, ischatting: false, to: "" };
 		socket.emit("connect user", { pickedUser, myinfo });
+		clients.forEach(client => {
+			if (client.username == pickedUser.username) {
+				client.to = pickedUser.to;
+			}
+			if (client.userlist == myinfo.username) {
+				client.to = myinfo.to;
+			}
+		});
 	} else {
 		alert("wait please");
 	}
@@ -190,7 +198,12 @@ socket.on("connect user", data => {
 					client.ischatting = true;
 					client.to = mystats.to;
 				}
+				if (client.username == data.pickedUser.username) {
+					client.to = data.myinfo.username;
+					client.ischatting = true;
+				}
 			});
+			//send.click();
 			M.toast({
 				html: 'You are now connected to "' + mystats.to + '"',
 				classes: "rounded"
@@ -199,8 +212,12 @@ socket.on("connect user", data => {
 			mystats.to = data.pickedUser.to;
 			clients.forEach(client => {
 				if (client.username == mystats.username) {
-					client.chatting = true;
+					client.ischatting = true;
 					client.to = mystats.to;
+				}
+				if (client.username == mystats.to) {
+					client.to = mystats.username;
+					client.ischatting = true;
 				}
 			});
 			M.toast({
