@@ -64,12 +64,13 @@ setidbtn.addEventListener("click", () => {
 		socket.emit("new user", { username: myid, ischatting: false, to: "" });
 		socket.emit("new user notification", myid);
 		//handle.value = 'Hi! ' + myid + ', You can chat with strangers now!';
-		if (clients.length >= 1) {
+		var randopick = arraySanitize(arrayRemove(clients, handle.value));
+		if (randopick.length >= 1) {
 			handle.disabled = true;
 			setidbtn.disabled = true;
 			send.disabled = false;
 			message.disabled = false;
-			selectRandom();
+			selectRandom(randopick);
 		} else {
 			handle.disabled = true;
 			setidbtn.disabled = true;
@@ -166,32 +167,49 @@ function arraySanitize(arr) {
 	});
 }
 
-var selectRandom = () => {
-	var randopick = arraySanitize(arrayRemove(clients, handle.value));
-	var pickedUser = randopick[Math.floor(Math.random() * randopick.length)];
-	var myinfo = { username: handle.value, ischatting: false, to: "" };
-	socket.emit("connect user", { pickedUser, myinfo });
+var selectRandom = randopick => {
+	if (randopick.length != 0) {
+		var pickedUser = randopick[Math.floor(Math.random() * randopick.length)];
+		var myinfo = { username: handle.value, ischatting: false, to: "" };
+		socket.emit("connect user", { pickedUser, myinfo });
+	} else {
+		alert("wait please");
+	}
 };
 
 var connectionData;
 socket.on("connect user", data => {
 	console.log(data);
-	connectionData = data;
-	mystats.ischatting = data.myinfo.ischatting;
-	if (data.pickedUser.username != mystats.username) {
-		mystats.to = data.myinfo.to;
-		M.toast({
-			html: 'You are now connected to "' + mystats.to + '"',
-			classes: "rounded"
-		});
-	} else {
-		mystats.to = data.pickedUser.to;
-		M.toast({
-			html:
-				'You are now connected to "' +
-				mystats.to +
-				'", Please wait for them to respond',
-			classes: "rounded"
-		});
+	if (authenticated) {
+		connectionData = data;
+		mystats.ischatting = data.myinfo.ischatting;
+		if (data.pickedUser.username != mystats.username) {
+			mystats.to = data.myinfo.to;
+			clients.forEach(client => {
+				if (client.username == mystats.username) {
+					client.ischatting = true;
+					client.to = mystats.to;
+				}
+			});
+			M.toast({
+				html: 'You are now connected to "' + mystats.to + '"',
+				classes: "rounded"
+			});
+		} else {
+			mystats.to = data.pickedUser.to;
+			clients.forEach(client => {
+				if (client.username == mystats.username) {
+					client.chatting = true;
+					client.to = mystats.to;
+				}
+			});
+			M.toast({
+				html:
+					'You are now connected to "' +
+					mystats.to +
+					'", Please wait for them to respond',
+				classes: "rounded"
+			});
+		}
 	}
 });

@@ -43,8 +43,8 @@ io.on("connection", socket => {
 		users.splice(i, 1);
 	});
 	socket.on("new user", data => {
-		//console.log(data);
 		users.push(data);
+		//console.log(users);
 		io.emit("users list", users);
 		io.emit("join", connectedClients);
 	});
@@ -52,10 +52,23 @@ io.on("connection", socket => {
 		socket.broadcast.emit("new user notification", data);
 	});
 	socket.on("connect user", data => {
+		console.log(data);
 		data.pickedUser.to = data.myinfo.username;
 		data.pickedUser.ischatting = true;
 		data.myinfo.to = data.pickedUser.username;
 		data.myinfo.ischatting = true;
+		//console.log(data);
+		//console.log(users);
+		users.forEach(user => {
+			if (user.username == data.pickedUser.username) {
+				user.to = data.pickedUser.to;
+				user.ischatting = true;
+			}
+			if (user.username == data.myinfo.username) {
+				user.to = data.myinfo.to;
+				user.ischatting = true;
+			}
+		});
 		io.sockets.emit("connect user", data);
 	});
 	io.emit("users list", users);
