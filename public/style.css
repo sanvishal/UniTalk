@@ -16,81 +16,58 @@ h2 {
 	overflow: auto;
 }
 
-.message-item-mine {
-	width: 80%;
+.message-blob:first-child {
+	padding: 8px;
+	width: auto;
 	height: auto;
-	line-break: auto;
-	float: right;
+	margin-top: 36px;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
-.message-item-other {
-	width: 80%;
+.message-blob:first-child > .card-panel {
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+}
+
+.message-blob > .card-panel {
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+}
+
+.message-blob.message-item-mine > .card-panel {
+	background-color: #f1f1f1 !important;
+}
+
+.message-blob.message-item-other > .card-panel {
+	background-color: #ffffff !important;
+}
+
+.message-blob {
+	padding: 8px;
+	width: auto;
 	height: auto;
-	line-break: auto;
-	float: left;
+	margin-top: -21px;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
-#output > .message-item-other {
-	width: 80%;
-	height: auto;
-	line-break: auto;
-	float: left;
-	margin-top: 15px;
-}
-.my-message.card-panel:first-child {
-	width: fit-content;
+.message-blob.message-item-mine {
 	float: right;
-	clear: right;
-	border-radius: 8px;
-	padding-top: 2px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 2px;
-	background-color: #ffffff;
-	margin-top: 20px;
-	margin-right: 12px;
+	clear: both;
+	max-width: 90%;
 }
 
-.other-message.card-panel:first {
-	width: fit-content;
+.message-blob.message-item-other {
 	float: left;
-	clear: left;
-	border-radius: 8px;
-	padding-top: 2px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 2px;
-	background: #e8e8e8;
-	margin-top: 20px;
-	margin-left: 12px;
-}
-
-.my-message.card-panel {
-	width: fit-content;
-	float: right;
-	clear: right;
-	border-radius: 8px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	background-color: #ffffff;
-	margin-top: 0px;
-	margin-right: 12px;
-}
-
-.other-message.card-panel {
-	width: fit-content;
-	float: left;
-	clear: left;
-	border-radius: 8px;
-	padding-top: 2px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 2px;
-	background: #e8e8e8;
-	margin-top: 0px;
-	margin-left: 12px;
+	clear: both;
+	max-width: 90%;
 }
 
 #typing p {
@@ -117,7 +94,13 @@ h2 {
 }
 
 #set-id {
-	width: 100%;
+	width: 45%;
+	margin: 2px;
+}
+#start-chat {
+	width: 45%;
+	float: right;
+	margin: 2px;
 }
 
 #num-users {
@@ -182,11 +165,6 @@ h2 {
 	#handle {
 		width: 100%;
 	}
-
-	#set-id {
-		width: 100%;
-	}
-
 	.modal-trigger {
 		left: 40% !important;
 		margin-top: 20px;
@@ -216,8 +194,12 @@ h2 {
 	margin-top: 10px;
 }
 
-.modal-trigger {
-	left: 48%;
+.btn-floating.modal-trigger {
+	left: calc(50% - 28px) !important;
 	margin-top: 5px;
 	position: fixed !important;
+}
+
+.greet-bot {
+	white-space: pre-line;
 }

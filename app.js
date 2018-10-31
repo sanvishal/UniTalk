@@ -26,52 +26,43 @@ var server = app.listen(app.get("port"), () => {
 });
 
 var io = socket(server);
-
+var sockets = [];
 io.on("connection", socket => {
+	sockets.push(socket);
+	//console.log(socket);
 	console.log("socket connected at: " + socket.id);
 	socket.on("chat", data => {
 		io.sockets.emit("chat", data);
 		//console.log(data);
 	});
-	socket.on("typing", data => {
-		socket.broadcast.emit("typing", data);
-	});
-	socket.on("disconnect", function() {
-		console.log(socket.id + " Got disconnected!");
-
-		var i = users.indexOf(socket);
-		users.splice(i, 1);
-	});
 	socket.on("new user", data => {
 		users.push(data);
-		//console.log(users);
-		io.emit("users list", users);
-		io.emit("join", connectedClients);
+		console.log(users);
+		io.sockets.emit("users list", users);
+		io.sockets.emit("users count", users.length);
 	});
-	socket.on("new user notification", data => {
-		socket.broadcast.emit("new user notification", data);
-	});
-	socket.on("connect user", data => {
-		console.log(data);
-		data.pickedUser.to = data.myinfo.username;
-		data.pickedUser.ischatting = true;
-		data.myinfo.to = data.pickedUser.username;
-		data.myinfo.ischatting = true;
-		//console.log(data);
-		//console.log(users);
+	socket.on("disconnect", function() {
+		var i = sockets.indexOf(socket);
 		users.forEach(user => {
-			if (user.username == data.pickedUser.username) {
-				user.to = data.pickedUser.to;
-				user.ischatting = true;
-			}
-			if (user.username == data.myinfo.username) {
-				user.to = data.myinfo.to;
-				user.ischatting = true;
+			if (user.id == socket.id) {
+				users.splice(users.indexOf(user), 1);
+				console.log(user.username + " disconnected");
 			}
 		});
-		io.sockets.emit("connect user", data);
+		io.sockets.emit("users list", users);
+		sockets.splice(i, 1);
 	});
-	io.emit("users list", users);
-	connectedClients = Object.keys(io.sockets.connected).length;
-	console.log(users);
+	socket.on("update user", data => {
+		users.forEach(user => {
+			if (user.id == data.mystats.id) {
+				user.ischatting = true;
+				user.to = data.pickeduser.username;
+			}
+			if (user.id == data.pickeduser.id) {
+				user.ischatting = true;
+				user.to = data.mystats.username;
+			}
+		});
+		io.sockets.emit("users list", users);
+	});
 });

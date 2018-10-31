@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UniTalk</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121889914-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -26,6 +27,7 @@
 </head>
 
 <body>
+    <audio id="audio" src="ogg/graceful.mp3"></audio>
     <a class="btn-floating btn-large waves-effect waves-light modal-trigger z-depth-3" href="#users-list">
         <i class="material-icons">arrow_downward</i>
     </a>
@@ -62,6 +64,7 @@
                 <label for="handle">Handle</label>
             </div>
             <button class="btn waves-effect waves-light" id="set-id">Set <i class="material-icons">check</i></button>
+            <button class="btn waves-effect waves-light" id="start-chat">Start <i class=" material-icons">check</i></button>
         </div>
         <div class="input-field">
             <input class="materialize-textarea" type="text" id="message" placeholder="Message" autofocus="autofocus" />
